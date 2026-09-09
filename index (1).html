@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>International Partnerships Showcase — Veterans India (Prototype)</title>
+<style>
+  :root{
+    --navy: #1C2B39;
+    --navy-deep: #131E28;
+    --cream: #F6F3EC;
+    --brass: #8A7B4F;
+    --brass-light: #C9B98A;
+    --brick: #8C4A3A;
+    --green-ok: #4B6B3F;
+    --line: #D8D2C2;
+    --ink: #22201A;
+    --radius: 3px;
+    --serif: 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+  }
+
+  a { color: var(--navy); }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:var(--navy); color:#fff; padding:10px 16px; z-index:200;
+  }
+  .skip-link:focus{ left:12px; top:12px; }
+
+  :focus-visible{
+    outline: 3px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  header.masthead{
+    background:var(--navy); color:var(--cream);
+    padding:18px 0;
+    border-bottom:4px solid var(--brass);
+  }
+  .masthead .wrap{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .masthead .org{ display:flex; align-items:center; gap:12px; }
+  .masthead .crest{
+    width:40px; height:40px; border:2px solid var(--brass-light);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-weight:700; color:var(--brass-light); font-size:16px;
+    flex-shrink:0;
+  }
+  .masthead h1{
+    font-family:var(--serif); font-size:19px; margin:0; letter-spacing:0.2px; font-weight:600;
+  }
+  .masthead .tagline{ font-size:12.5px; color:var(--brass-light); margin-top:2px; }
+  .masthead nav a{
+    color:var(--cream); text-decoration:none; margin-left:20px; font-size:14px;
+    border-bottom:1px solid transparent; padding-bottom:2px;
+  }
+  .masthead nav a:hover, .masthead nav a:focus-visible{ border-bottom-color:var(--brass-light); }
+  .masthead nav{ display:flex; flex-wrap:wrap; }
+
+  .demo-banner{
+    background:var(--brass-light); color:var(--navy-deep); font-size:13px;
+    text-align:center; padding:8px 16px; font-weight:600;
+  }
+
+  section{ padding:56px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+
+  .eyebrow-free-heading{
+    font-family:var(--serif); font-size:28px; margin:0 0 14px; font-weight:600; color:var(--navy);
+  }
+  .lede{ max-width:62ch; font-size:16px; color:#3c3a33; }
+
+  /* Purpose */
+  .purpose-panel{
+    background:var(--navy); color:var(--cream); border-radius:var(--radius);
+    padding:40px; margin-top:8px;
+    border-left:4px solid var(--brass);
+  }
+  .purpose-panel p{ max-width:68ch; font-size:16.5px; margin:0; }
+  .purpose-panel .signoff{ margin-top:18px; font-size:13px; color:var(--brass-light); }
+
+  /* Category grid */
+  .cat-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr));
+    gap:16px; margin-top:28px;
+  }
+  .cat-card{
+    border:1px solid var(--line); background:#fff; padding:20px 18px;
+    border-top:3px solid var(--brass);
+  }
+  .cat-card h3{ font-family:var(--serif); font-size:16.5px; margin:0 0 6px; }
+  .cat-card p{ font-size:13.5px; color:#5b584d; margin:0; }
+  .cat-card .count{ font-size:22px; font-weight:700; color:var(--navy); font-family:var(--serif); }
+
+  /* Filter row */
+  .filter-row{
+    display:flex; gap:10px; flex-wrap:wrap; margin:28px 0 20px;
+  }
+  .filter-row button{
+    font-family:var(--sans); font-size:13px; padding:7px 14px;
+    border:1px solid var(--navy); background:#fff; color:var(--navy);
+    border-radius:16px; cursor:pointer;
+  }
+  .filter-row button[aria-pressed="true"]{
+    background:var(--navy); color:var(--cream);
+  }
+  .filter-row button:hover{ background:var(--navy); color:var(--cream); }
+
+  /* Partner cards */
+  .card-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr));
+    gap:18px;
+  }
+  .p-card{
+    background:#fff; border:1px solid var(--line); padding:20px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .p-card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .p-card h3{ font-family:var(--serif); font-size:17px; margin:0; color:var(--navy); }
+  .p-card .country{ font-size:12.5px; color:#6b6858; margin-top:2px; }
+  .status-tag{
+    font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:12px;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .status-active{ background:#E4EBDF; color:var(--green-ok); }
+  .status-pending{ background:#F1E6D9; color:var(--brass); }
+  .status-lapsed{ background:#F1DDD8; color:var(--brick); }
+
+  .p-card dl{ margin:0; font-size:13.5px; }
+  .p-card dl div{ display:flex; gap:6px; padding:3px 0; border-bottom:1px dotted var(--line); }
+  .p-card dl dt{ color:#6b6858; min-width:92px; flex-shrink:0; }
+  .p-card dl dd{ margin:0; color:var(--ink); }
+  .p-card .evidence-link{ font-size:13px; margin-top:4px; }
+
+  /* Opportunities & completed */
+  .list-block{ display:flex; flex-direction:column; gap:14px; margin-top:24px; }
+  .list-item{
+    border:1px solid var(--line); background:#fff; padding:16px 18px;
+    display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;
+  }
+  .list-item h4{ margin:0 0 4px; font-family:var(--serif); font-size:15.5px; }
+  .list-item p{ margin:0; font-size:13.5px; color:#5b584d; max-width:60ch; }
+  .list-item .tag{ font-size:12px; color:var(--brass); font-weight:600; flex-shrink:0; }
+
+  /* Form */
+  .form-panel{
+    background:#fff; border:1px solid var(--line); padding:32px; max-width:640px;
+  }
+  .field{ margin-bottom:18px; display:flex; flex-direction:column; gap:5px; }
+  .field label{ font-size:13.5px; font-weight:600; }
+  .field .req{ color:var(--brick); }
+  .field input[type=text], .field input[type=email], .field select, .field textarea{
+    font-family:var(--sans); font-size:14.5px; padding:9px 11px;
+    border:1px solid #B7B2A0; border-radius:var(--radius); background:var(--cream);
+  }
+  .field textarea{ min-height:90px; resize:vertical; }
+  .field .hint{ font-size:12px; color:#6b6858; }
+  .field .error{ font-size:12.5px; color:var(--brick); display:none; }
+  .field.invalid input, .field.invalid textarea, .field.invalid select{ border-color:var(--brick); }
+  .field.invalid .error{ display:block; }
+  .checkbox-field{ flex-direction:row; align-items:flex-start; gap:10px; }
+  .checkbox-field input{ margin-top:3px; }
+  .checkbox-field label{ font-weight:400; font-size:13.5px; }
+
+  .submit-btn{
+    font-family:var(--sans); font-size:14.5px; font-weight:600;
+    background:var(--navy); color:var(--cream); border:none;
+    padding:12px 22px; cursor:pointer; border-radius:var(--radius);
+  }
+  .submit-btn:hover{ background:var(--navy-deep); }
+
+  .ack-msg{
+    display:none; margin-top:18px; padding:14px 16px; background:#E4EBDF;
+    border-left:3px solid var(--green-ok); font-size:14px; color:#2f4527;
+  }
+  .ack-msg.show{ display:block; }
+
+  /* CTA */
+  .cta-panel{
+    background:var(--brass-light); padding:36px 40px; text-align:left;
+    display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .cta-panel h2{ font-family:var(--serif); font-size:22px; margin:0 0 6px; color:var(--navy-deep); }
+  .cta-panel p{ margin:0; font-size:14px; color:var(--navy-deep); }
+  .cta-btn{
+    background:var(--navy); color:var(--cream); text-decoration:none;
+    padding:12px 24px; font-size:14.5px; font-weight:600; border-radius:var(--radius);
+    flex-shrink:0;
+  }
+  .cta-btn:hover{ background:var(--navy-deep); }
+
+  footer{ background:var(--navy-deep); color:var(--brass-light); padding:24px 0; font-size:12.5px; text-align:center; }
+
+  @media (max-width: 640px){
+    .masthead .wrap{ flex-direction:column; align-items:flex-start; }
+    .masthead nav{ margin-left:0; }
+    .masthead nav a{ margin-left:0; margin-right:16px; }
+    section{ padding:36px 0; }
+    .purpose-panel{ padding:24px; }
+    .cta-panel{ flex-direction:column; align-items:flex-start; text-align:left; }
+    .form-panel{ padding:22px; }
+    .eyebrow-free-heading{ font-size:23px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="demo-banner">PROTOTYPE — placeholder data only. Not a live or published service.</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="org">
+      <div class="crest" aria-hidden="true">VI</div>
+      <div>
+        <h1>Veterans India</h1>
+        <div class="tagline">Nation First • Patriot First</div>
+      </div>
+    </div>
+    <nav aria-label="Section navigation">
+      <a href="#purpose">Purpose</a>
+      <a href="#partners">Partners</a>
+      <a href="#opportunities">Opportunities</a>
+      <a href="#enquiry">Enquire</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section id="purpose">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">International Partnerships</h2>
+      <p class="lede">Why Veterans India works with organisations beyond its borders, and what that collaboration is meant to achieve.</p>
+      <div class="purpose-panel">
+        <p>Veterans India partners with organisations abroad to widen support for veterans and their families, exchange practice on rehabilitation and resettlement, and connect Indian veterans' welfare work to a global community facing similar challenges. Every partnership is judged by the difference it makes to a veteran's daily life — not by the size of the logo on a page.</p>
+        <div class="signoff">— Office of the Founder &amp; National President</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="categories">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">Partner categories</h2>
+      <p class="lede">Five kinds of organisation make up the international partnerships portfolio.</p>
+      <div class="cat-grid">
+        <div class="cat-card">
+          <div class="count">6</div>
+          <h3>Veterans' organisations</h3>
+          <p>Peer bodies representing serving and former military personnel overseas.</p>
+        </div>
+        <div class="cat-card">
+          <div class="count">4</div>
+          <h3>Universities &amp; HEIs</h3>
+          <p>Research and education partners working on veteran welfare and transition studies.</p>
+        </div>
+        <div class="cat-card">
+          <div class="count">3</div>
+          <h3>CSR &amp; foundations</h3>
+          <p>Funding partners supporting welfare, healthcare and livelihood programmes.</p>
+        </div>
+        <div class="cat-card">
+          <div class="count">5</div>
+          <h3>Diaspora &amp; community groups</h3>
+          <p>Indian diaspora associations that mobilise local support and volunteers.</p>
+        </div>
+        <div class="cat-card">
+          <div class="count">2</div>
+          <h3>Knowledge partners</h3>
+          <p>Think tanks and policy institutes sharing research and best practice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partners">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">Partner registry (demo entries)</h2>
+      <p class="lede">Filter by category to view partnership status, focus area and next steps. All names below are placeholders.</p>
+
+      <div class="filter-row" role="group" aria-label="Filter partners by category">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="veterans">Veterans' organisations</button>
+        <button type="button" data-filter="hei">Universities/HEIs</button>
+        <button type="button" data-filter="csr">CSR/foundations</button>
+        <button type="button" data-filter="diaspora">Diaspora/community</button>
+        <button type="button" data-filter="knowledge">Knowledge partners</button>
+      </div>
+
+      <div class="card-grid" id="cardGrid">
+
+        <article class="p-card" data-cat="veterans">
+          <div class="p-card-top">
+            <div>
+              <h3>Sample Veterans Alliance</h3>
+              <div class="country">United Kingdom</div>
+            </div>
+            <span class="status-tag status-active">Active</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Rehabilitation exchange</dd></div>
+            <div><dt>Next action</dt><dd>Confirm Q4 exchange visit dates</dd></div>
+            <div><dt>Owner</dt><dd>R. Singh, Partnerships Desk</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Sample Veterans Alliance (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+        <article class="p-card" data-cat="hei">
+          <div class="p-card-top">
+            <div>
+              <h3>Placeholder State University</h3>
+              <div class="country">Canada</div>
+            </div>
+            <span class="status-tag status-pending">Pending</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Veteran transition research</dd></div>
+            <div><dt>Next action</dt><dd>Await signed MoU draft</dd></div>
+            <div><dt>Owner</dt><dd>A. Verma, Research Cell</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Placeholder State University (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+        <article class="p-card" data-cat="csr">
+          <div class="p-card-top">
+            <div>
+              <h3>Demo Foundation Trust</h3>
+              <div class="country">Singapore</div>
+            </div>
+            <span class="status-tag status-active">Active</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Livelihood grants</dd></div>
+            <div><dt>Next action</dt><dd>Submit Q3 utilisation report</dd></div>
+            <div><dt>Owner</dt><dd>P. Nair, Finance &amp; Grants</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Demo Foundation Trust (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+        <article class="p-card" data-cat="diaspora">
+          <div class="p-card-top">
+            <div>
+              <h3>Sample Indian Community Circle</h3>
+              <div class="country">United States</div>
+            </div>
+            <span class="status-tag status-active">Active</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Volunteer mobilisation</dd></div>
+            <div><dt>Next action</dt><dd>Plan diaspora fundraiser event</dd></div>
+            <div><dt>Owner</dt><dd>S. Iyer, Community Relations</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Sample Indian Community Circle (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+        <article class="p-card" data-cat="knowledge">
+          <div class="p-card-top">
+            <div>
+              <h3>Example Policy Institute</h3>
+              <div class="country">Australia</div>
+            </div>
+            <span class="status-tag status-lapsed">Lapsed</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Policy research exchange</dd></div>
+            <div><dt>Next action</dt><dd>Re-engage after 2025 review</dd></div>
+            <div><dt>Owner</dt><dd>R. Singh, Partnerships Desk</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Example Policy Institute (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+        <article class="p-card" data-cat="veterans">
+          <div class="p-card-top">
+            <div>
+              <h3>Test Legion Association</h3>
+              <div class="country">France</div>
+            </div>
+            <span class="status-tag status-pending">Pending</span>
+          </div>
+          <dl>
+            <div><dt>Focus area</dt><dd>Peer support training</dd></div>
+            <div><dt>Next action</dt><dd>Schedule introductory call</dd></div>
+            <div><dt>Owner</dt><dd>A. Verma, Research Cell</dd></div>
+          </dl>
+          <a class="evidence-link" href="#" onclick="return false;" aria-label="View evidence link for Test Legion Association (demo, non-functional)">View evidence link (demo)</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="opportunities">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">Current opportunities</h2>
+      <p class="lede">Open items where new international partners could contribute.</p>
+      <div class="list-block">
+        <div class="list-item">
+          <div>
+            <h4>Rehabilitation exchange programme, cohort 3</h4>
+            <p>Seeking a veterans' organisation abroad to co-host a two-week practitioner exchange in early 2027.</p>
+          </div>
+          <span class="tag">Veterans' organisations</span>
+        </div>
+        <div class="list-item">
+          <div>
+            <h4>Transition-to-civilian-life research study</h4>
+            <p>Looking for a university partner to co-author a comparative study on veteran employment outcomes.</p>
+          </div>
+          <span class="tag">Universities/HEIs</span>
+        </div>
+        <div class="list-item">
+          <div>
+            <h4>Livelihood grant co-funding, 2027 cycle</h4>
+            <p>Inviting CSR and foundation partners to co-fund vocational training for 200 veteran families.</p>
+          </div>
+          <span class="tag">CSR/foundations</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="completed">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">Completed collaborations &amp; evidence</h2>
+      <p class="lede">A record of past work, kept for transparency and reference.</p>
+      <div class="list-block">
+        <div class="list-item">
+          <div>
+            <h4>Diaspora fundraiser, 2025</h4>
+            <p>Joint fundraiser with a diaspora community group; funds directed to family welfare grants.</p>
+          </div>
+          <span class="tag">Diaspora/community</span>
+        </div>
+        <div class="list-item">
+          <div>
+            <h4>Policy brief on veteran resettlement, 2024</h4>
+            <p>Co-published with a knowledge partner; used to inform internal programme design.</p>
+          </div>
+          <span class="tag">Knowledge partners</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="enquiry">
+    <div class="wrap">
+      <h2 class="eyebrow-free-heading">Propose a collaboration</h2>
+      <p class="lede">Organisations interested in partnering with Veterans India can submit initial details below. This is a prototype form — submissions are not sent or stored anywhere.</p>
+
+      <form class="form-panel" id="enquiryForm" novalidate>
+
+        <div class="field" id="field-name">
+          <label for="inp-name">Your name <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="inp-name" name="name" required aria-required="true" aria-describedby="err-name">
+          <span class="error" id="err-name" role="alert">Please enter your name.</span>
+        </div>
+
+        <div class="field" id="field-org">
+          <label for="inp-org">Organisation <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="inp-org" name="organisation" required aria-required="true" aria-describedby="err-org">
+          <span class="error" id="err-org" role="alert">Please enter your organisation's name.</span>
+        </div>
+
+        <div class="field" id="field-country">
+          <label for="inp-country">Country <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="inp-country" name="country" required aria-required="true" aria-describedby="err-country">
+          <span class="error" id="err-country" role="alert">Please enter your country.</span>
+        </div>
+
+        <div class="field" id="field-email">
+          <label for="inp-email">Email address <span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="inp-email" name="email" required aria-required="true" aria-describedby="hint-email err-email">
+          <span class="hint" id="hint-email">We'll only use this to respond to your enquiry.</span>
+          <span class="error" id="err-email" role="alert">Please enter a valid email address (e.g. name@example.org).</span>
+        </div>
+
+        <div class="field" id="field-proposal">
+          <label for="inp-proposal">Proposed collaboration <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="inp-proposal" name="proposal" required aria-required="true" aria-describedby="err-proposal" placeholder="Briefly describe what you'd like to work on together."></textarea>
+          <span class="error" id="err-proposal" role="alert">Please describe your proposed collaboration.</span>
+        </div>
+
+        <div class="field checkbox-field" id="field-consent">
+          <input type="checkbox" id="inp-consent" name="consent" required aria-required="true" aria-describedby="err-consent">
+          <label for="inp-consent">I consent to Veterans India storing these details in order to respond to my enquiry. <span class="req" aria-hidden="true">*</span></label>
+        </div>
+        <span class="error" id="err-consent" role="alert" style="margin-top:-10px;">Please provide consent to continue.</span>
+
+        <button type="submit" class="submit-btn">Submit enquiry</button>
+
+        <div class="ack-msg" id="ackMsg" role="status" tabindex="-1">
+          Thank you — your enquiry has been recorded (demo only, nothing was sent). The partnerships desk will typically respond within 5 working days.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:none; padding-bottom:0;">
+    <div class="wrap">
+      <div class="cta-panel">
+        <div>
+          <h2>Want to discuss a partnership directly?</h2>
+          <p>Reach the international partnerships desk to talk through an idea before submitting a formal enquiry.</p>
+        </div>
+        <a class="cta-btn" href="#enquiry">Go to enquiry form</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Veterans India — International Partnerships Showcase (Prototype). Placeholder data only, not for production use.
+  </div>
+</footer>
+
+<script>
+(function(){
+  // --- Category filter ---
+  var buttons = document.querySelectorAll('.filter-row button');
+  var cards = document.querySelectorAll('.p-card');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      var filter = btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        var show = (filter === 'all' || card.getAttribute('data-cat') === filter);
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // --- Form validation ---
+  var form = document.getElementById('enquiryForm');
+  var ack = document.getElementById('ackMsg');
+
+  function setInvalid(fieldId, invalid){
+    var field = document.getElementById(fieldId);
+    if(invalid){ field.classList.add('invalid'); }
+    else { field.classList.remove('invalid'); }
+  }
+
+  function validEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    ack.classList.remove('show');
+
+    var name = document.getElementById('inp-name');
+    var org = document.getElementById('inp-org');
+    var country = document.getElementById('inp-country');
+    var email = document.getElementById('inp-email');
+    var proposal = document.getElementById('inp-proposal');
+    var consent = document.getElementById('inp-consent');
+
+    var ok = true;
+    var firstInvalid = null;
+
+    setInvalid('field-name', !name.value.trim());
+    setInvalid('field-org', !org.value.trim());
+    setInvalid('field-country', !country.value.trim());
+    setInvalid('field-proposal', !proposal.value.trim());
+
+    var emailInvalid = !email.value.trim() || !validEmail(email.value.trim());
+    setInvalid('field-email', emailInvalid);
+
+    var consentInvalid = !consent.checked;
+    setInvalid('field-consent', consentInvalid);
+    document.getElementById('err-consent').style.display = consentInvalid ? 'block' : 'none';
+
+    [ [name,'field-name'], [org,'field-org'], [country,'field-country'],
+      [email,'field-email'], [proposal,'field-proposal'], [consent,'field-consent'] ]
+    .forEach(function(pair){
+      var el = pair[0], fid = pair[1];
+      var invalid = document.getElementById(fid).classList.contains('invalid');
+      if(invalid){
+        ok = false;
+        if(!firstInvalid) firstInvalid = el;
+      }
+    });
+
+    if(!ok){
+      if(firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    ack.classList.add('show');
+    ack.focus();
+    form.reset();
+    document.querySelectorAll('.field').forEach(function(f){ f.classList.remove('invalid'); });
+  });
+})();
+</script>
+
+</body>
+</html>
