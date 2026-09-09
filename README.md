@@ -52,9 +52,3 @@ then visit `http://localhost:8000/index.html`.
   split into components/framework code later if the organisation adopts a
   particular tech stack.
 
-## Known limitations (by design, per assignment scope)
-
-- No live data, no CMS, no authentication.
-- Evidence links on partner cards are placeholders (non-functional) rather
-  than pointing to real documents.
-- No real personal data is collected or stored anywhere in this prototype.
